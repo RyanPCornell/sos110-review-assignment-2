@@ -1437,6 +1437,13 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
         else toast('From empty space, drag onto a <b>stock</b> to show material entering from outside the system.',3600);
         return; }
       var A=byId(dg.id); if(!A) return;
+      /* a double-click is detected here, from two quick taps on the same piece. The browser's own
+         dblclick cannot be trusted: the canvas holds pointer capture during each press, so the
+         dblclick is delivered to the canvas, not to the piece, and the piece is redrawn between
+         the two clicks anyway. */
+      if(!dg.moved){ var now=Date.now();
+        if(lastTap && lastTap.id===dg.id && now-lastTap.t<450){ lastTap=null; pend=null; openInsp(dg.id,false); return; }
+        lastTap={id:dg.id, t:now}; }
       if(mode==='move'){ if(dg.moved){ render(); commit(); } else { sel=dg.id; render(); } return; }
       var tg2=dg.moved? nodeAt(q) : null;
       if(!dg.moved){ /* tap, then tap: the keyboard-free way to connect */
@@ -1459,7 +1466,9 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
     window.addEventListener('pointerup',function(e){ if(drag) endDrag(e); }, true);
     svg.addEventListener('lostpointercapture',function(e){ if(drag) endDrag(e); });
     window.addEventListener('blur',function(){ if(drag){ drag=null; RUB.innerHTML=''; render(); } if(pd){ pd=null; } });
-    svg.addEventListener('dblclick',function(e){ var nEl=e.target.closest('[data-n]'); if(nEl){ e.preventDefault(); openInsp(nEl.getAttribute('data-n'),false); } });
+    var lastTap=null;
+    /* backstop for browsers that do deliver dblclick: find the piece by position, never by target */
+    svg.addEventListener('dblclick',function(e){ e.preventDefault(); var id=nodeAt(toSvg(e)); if(id && (insp.hidden || inspId!==id)) openInsp(id,false); });
 
     $$('.cb-mode').forEach(function(b){ b.addEventListener('click',function(){ mode=b.dataset.mode; pend=null;
       $$('.cb-mode').forEach(function(x){ x.classList.toggle('on', x===b); }); svg.dataset.mode=mode; render();
@@ -1926,7 +1935,7 @@ const start = m ? (+m[1]-1) : 0;
 slides.forEach(s=>s.classList.remove('active'));
 show(start);
 </script>
-<script src="firebase-config.js"></script>
+<script src="firebase-config.js?v=50bb80fa2c"></script>
 <script>if(new URLSearchParams(location.search).has("demo"))window.FIREBASE_CONFIG={apiKey:"YOUR_API_KEY"};</script>
 <script type="module">
 (async function(){
