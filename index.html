@@ -462,7 +462,6 @@ body.r2-host .ag-root{padding-top:2.9rem;}
   border:1px solid var(--line); border-radius:7px; padding:.24rem .4rem; min-width:0;}
 .cb-f select:focus,.cb-f input:focus{outline:none; border-color:var(--accent); background:#fff;}
 .cb-f.wide{flex:1 1 11rem;} .cb-f.wide input{font-family:'Merriweather',serif; font-weight:700; color:var(--forest);}
-.cb-f.names{flex:0 1 11rem;}
 .cb-f.code{flex:0 1 9.5rem;}
 .cb-f.code input{font-family:'Inter',sans-serif; font-weight:800; letter-spacing:.05em; text-transform:uppercase;}
 .cb-f.code input::placeholder{text-transform:none; letter-spacing:0; font-weight:500;}
@@ -900,8 +899,6 @@ body.r2-host .ag-root{padding-top:2.9rem;}
         <input data-ecoother type="text" maxlength="48" placeholder="e.g. the Chihuahuan Desert"></label>
       <label class="cb-f wide"><span>Title</span>
         <input data-title type="text" maxlength="90" placeholder="Choose a cycle and an ecosystem" spellcheck="true"></label>
-      <label class="cb-f names"><span>Group members</span>
-        <input data-names type="text" maxlength="120" placeholder="Your names" spellcheck="false"></label>
       <label class="cb-f code"><span>In-class code <i class="cb-codestat" data-codestat></i></span>
         <input data-code type="text" maxlength="40" placeholder="from the screen" spellcheck="false"
           autocomplete="off" autocapitalize="characters"></label>
@@ -1577,9 +1574,9 @@ body.r2-host .ag-root{padding-top:2.9rem;}
       window.addEventListener('pointermove',palMove); window.addEventListener('pointerup',palUp); window.addEventListener('pointercancel',palUp); });
 
     /* ═══════ the Title band ═══════ */
-    var bCycle=$('[data-cycle]'), bEco=$('[data-eco]'), bOther=$('[data-ecoother]'), bTitle=$('[data-title]'), bNames=$('[data-names]'), bCode=$('[data-code]'), bCodeStat=$('[data-codestat]');
+    var bCycle=$('[data-cycle]'), bEco=$('[data-eco]'), bOther=$('[data-ecoother]'), bTitle=$('[data-title]'), bCode=$('[data-code]'), bCodeStat=$('[data-codestat]');
     function syncBand(){
-      bCycle.value=doc.cycle||''; bEco.value=doc.eco||''; bOther.value=doc.ecoOther||''; bNames.value=doc.names||''; bCode.value=doc.code||''; codeStatus();
+      bCycle.value=doc.cycle||''; bEco.value=doc.eco||''; bOther.value=doc.ecoOther||''; bCode.value=doc.code||''; codeStatus();
       $('[data-ecoother-wrap]').hidden= doc.eco!=='other';
       bTitle.value= doc.titleAuto? autoTitle() : doc.title; }
     var bandT=null; function bandCommit(){ clearTimeout(bandT); bandT=setTimeout(commit,600); }
@@ -1590,7 +1587,6 @@ body.r2-host .ag-root{padding-top:2.9rem;}
     bOther.addEventListener('input',function(){ doc.ecoOther=bOther.value; if(doc.titleAuto) bTitle.value=autoTitle(); renderPanel(); bandCommit(); });
     bTitle.addEventListener('input',function(){ doc.title=bTitle.value; doc.titleAuto=false; renderPanel(); bandCommit(); });
     bTitle.addEventListener('blur',function(){ if(!bTitle.value.trim()){ doc.titleAuto=true; doc.title=''; bTitle.value=autoTitle(); renderPanel(); commit(); } });
-    bNames.addEventListener('input',function(){ doc.names=bNames.value; renderPanel(); bandCommit(); });
     /* the in-class code: checked against the codes of the last three weeks, so a student finishing
        at home later still sees it confirmed. A speed bump, not security: the same page generates it. */
     function codeMatch(){ var c=String(doc.code||'').trim(); return c? r2CodeMatch(c, 21) : null; }
@@ -1783,11 +1779,11 @@ body.r2-host .ag-root{padding-top:2.9rem;}
         if(doc.nodes.length) confirmBox('Open <b>'+esc(f.name)+'</b>? It replaces what is on the canvas now. You can Undo afterwards.','Open it',go); else go(); };
       rd.readAsText(f); });
     $('[data-clear]').addEventListener('click',function(){ closeInsp(); if(!doc.nodes.length){ toast('The canvas is already empty.'); return; }
-      confirmBox('Clear the diagram? Every piece and arrow goes. Your title, names and synthesis statement stay, and Undo brings it all back.','Clear it',
+      confirmBox('Clear the diagram? Every piece and arrow goes. Your title, code and synthesis statement stay, and Undo brings it all back.','Clear it',
         function(){ doc.nodes=[]; doc.links=[]; sel=null; pend=null; render(); commit(); }); });
 
     var EXAMPLES={ sulfur:function(){
-      var d=blank(); d.cycle='sulfur'; d.eco='temperate'; d.titleAuto=false; d.title='Example: The Sulfur Cycle in a Temperate Forest'; d.names='Worked example';
+      var d=blank(); d.cycle='sulfur'; d.eco='temperate'; d.titleAuto=false; d.title='Example: The Sulfur Cycle in a Temperate Forest';
       d.summary='In a temperate forest, most sulfur arrives from the sky. Coal burning upwind loads the atmosphere with sulfur dioxide, which returns as acid rain and builds up in the soil faster than trees can take it up. The surplus acidifies the soil and leaches into streams. Scrubbers required under the 1990 Clean Air Act Amendments have cut that deposition sharply, so part of the human impact is now offset by a human solution.';
       function N(id,k,label,ic,x,y,o){ var n={id:id,k:k,label:label,ic:ic,x:x,y:y}; if(k==='stock') n.sz='m'; if(k==='flow') n.sp='m'; if(o) for(var q in o) n[q]=o[q]; d.nodes.push(n); }
       N('n1','stock','Atmosphere (SO₂ & sulfate)','air',560,92,{sz:'s'});
@@ -1854,7 +1850,7 @@ body.r2-host .ag-root{padding-top:2.9rem;}
       var codeBox= cd? '<div class="code'+(cm?'':' no')+'"><div class="k">In-class code</div><b>'+esc(cd)+'</b><i>'+(cm? 'matches class on '+esc(r2DayLabel(cm)) : 'not an in-class code')+'</i></div>'
                      : '<div class="code no"><div class="k">In-class code</div><b>&mdash;</b><i>none entered</i></div>';
       var meta=[]; if(c) meta.push('<b>Cycle</b> '+esc(c.n)); if(ecoName()) meta.push('<b>Ecosystem</b> '+esc(ecoName()));
-      if(doc.names.trim()) meta.push('<b>Group</b> '+esc(doc.names.trim())); meta.push(when);
+      meta.push(when);
       var legend='<span><i style="border-color:#7a5a2f;background:#fffaf1"></i>Stock</span>'+
         '<span><i style="border-color:#2f5f5a;background:#fffaf1;border-radius:0;transform:skewX(-20deg)"></i>Flow (process)</span>'+
         '<span><i style="border-color:#4a5a52;border-radius:50%;width:10px;height:10px"></i>Condition</span>'+
