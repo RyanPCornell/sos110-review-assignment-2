@@ -306,16 +306,6 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .ag-link:hover,.ag-link:focus-visible{border-bottom-color:var(--accent);
   background:color-mix(in srgb, var(--accent) 9%, transparent);}
 
-/* "First": the choice that comes before the three sections */
-.r2-first{display:grid; grid-template-columns:auto 1fr; gap:0 clamp(.9rem,2.2vw,1.8rem); align-items:baseline;
-  margin-top:clamp(.35rem,1vh,.6rem); padding:.38rem 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
-.r2-fl{font-size:.62rem; font-weight:800; letter-spacing:.17em; text-transform:uppercase; color:var(--accent);}
-.r2-fb{display:flex; flex-direction:column; gap:.18rem;}
-.r2-fp{font-family:'Merriweather',serif; font-size:clamp(.66rem,1.02vw,.8rem); line-height:1.5; color:#2f3f38;}
-.r2-fp b{font-weight:700; color:var(--forest);}
-.r2-cyc{font-weight:700; color:var(--accent); white-space:nowrap;}
-.r2-dot{color:#b8b0a0; margin:0 .2rem;}
-
 .ag-rule{display:flex; align-items:center; gap:.75rem; margin:clamp(.45rem,1.3vh,.8rem) 0 clamp(.4rem,1.2vh,.7rem);}
 .ag-rule span{flex:none; font-size:.62rem; font-weight:800; letter-spacing:.17em;
   text-transform:uppercase; color:#a3948a;}
@@ -336,7 +326,6 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
   font-size:clamp(.65rem,1vw,.78rem); line-height:1.5; color:#6b7d75; margin-bottom:.42rem;}
 .ag-eg{font-family:'Merriweather',serif; font-size:clamp(.66rem,1.01vw,.78rem);
   line-height:1.5; color:#5b6b63; margin-bottom:.3rem;}
-.r2-quote{border-left:2px solid color-mix(in srgb, var(--accent) 45%, transparent); padding-left:.55rem; margin-top:.15rem;}
 .ag-sub{margin-top:clamp(.45rem,1.4vh,.9rem); padding-top:clamp(.4rem,1.1vh,.6rem);
   border-top:2px solid var(--forest);
   display:grid; grid-template-columns:auto 1fr; gap:0 clamp(1rem,2.6vw,2.2rem); align-items:baseline;}
@@ -346,16 +335,55 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
   line-height:1.6; color:#2f3f38;}
 .ag-subtext b{font-weight:700; color:var(--forest);}
 
+/* ══════════ 3 · AT A GLANCE ══════════ */
+.gl-body{flex:1; min-height:0; display:grid; grid-template-columns:1.25fr 1fr; gap:clamp(1rem,3vw,2.6rem);
+  margin-top:clamp(.5rem,1.4vh,.9rem); align-items:start;}
+.gl-list{list-style:none; counter-reset:g; display:flex; flex-direction:column; margin:0; padding:0;}
+.gl-list li{counter-increment:g; position:relative; padding:clamp(.36rem,1.05vh,.58rem) 0 clamp(.36rem,1.05vh,.58rem) 1.9rem;
+  border-bottom:1px solid var(--line); font-family:'Merriweather',serif; font-size:clamp(.74rem,1.15vw,.92rem);
+  line-height:1.5; color:#2f3f38;}
+.gl-list li:first-child{border-top:1px solid var(--line);}
+.gl-list li::before{content:counter(g); position:absolute; left:.1rem; top:clamp(.36rem,1.05vh,.58rem);
+  font-weight:900; color:var(--accent);}
+.gl-list b{color:var(--forest); font-weight:700;}
+.gl-pdf{border-left:1px solid var(--line); padding-left:clamp(.9rem,2.2vw,1.8rem);}
+.gl-pdfh{font-size:.62rem; font-weight:800; letter-spacing:.17em; text-transform:uppercase; color:var(--accent); margin-bottom:.35rem;}
+.gl-pdfp{font-family:'Merriweather',serif; font-size:clamp(.68rem,1.03vw,.82rem); line-height:1.5; color:#2f3f38; margin-bottom:.45rem;}
+.gl-pdfp b{color:var(--forest);}
+.gl-dl{display:flex; flex-direction:column; margin:0;}
+.gl-dl div{padding:clamp(.28rem,.85vh,.42rem) 0; border-top:1px solid var(--line);}
+.gl-dl dt{font-size:clamp(.68rem,1.02vw,.8rem); font-weight:800; color:var(--forest);}
+.gl-dl dd{margin:0; font-family:'Merriweather',serif; font-size:clamp(.62rem,.94vw,.75rem); line-height:1.5; color:#4a5a52;}
+.gl-dl dd b{color:var(--forest);}
+.gl-dl .ag-link{font-family:'Inter',sans-serif; font-size:.96em;}
+
+/* ══════════ the host's daily in-class code ══════════ */
+.r2-code{position:fixed; top:.6rem; left:50%; transform:translateX(-50%); z-index:60; display:flex; align-items:baseline;
+  gap:.6rem; font:inherit; background:#fff; border:2px solid #2f6f6a; border-radius:999px; padding:.3rem 1rem .32rem;
+  box-shadow:0 4px 14px rgba(20,40,30,.18); cursor:pointer;}
+.r2-code span{font-size:.6rem; font-weight:800; letter-spacing:.15em; text-transform:uppercase; color:#2f6f6a;}
+.r2-code b{font:900 1.2rem 'Inter',sans-serif; letter-spacing:.07em; color:#1A3C34;}
+.r2-codebig{position:fixed; inset:0; z-index:61; background:rgba(14,32,28,.86); display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:.7rem; color:#fff; text-align:center; cursor:pointer; padding:2rem;}
+.r2-codebig[hidden]{display:none;}
+.r2-codebig span{font-size:clamp(.9rem,1.6vw,1.2rem); font-weight:800; letter-spacing:.2em; text-transform:uppercase; color:#9fd3c7;}
+.r2-codebig b{font:900 clamp(3rem,11vw,9rem) 'Inter',sans-serif; letter-spacing:.06em; line-height:1;}
+.r2-codebig i{font-style:normal; font-size:clamp(.9rem,1.6vw,1.2rem); color:#d7e7e1;}
+.r2-codebig em{font-family:'Merriweather',serif; font-style:italic; font-size:clamp(.85rem,1.4vw,1.05rem); color:#cfe0da; max-width:44ch; margin-top:.4rem;}
+/* room under the banner for the slides whose content runs to the top edge */
+body.r2-host .cb-root{padding-top:3.2rem;}
+body.r2-host .ag-root{padding-top:2.9rem;}
+
 /* ══════════ 4 · BEFORE YOU UPLOAD ══════════ */
 .ck-body{flex:1; min-height:0; display:grid; grid-template-columns:1.45fr 1fr; gap:clamp(1rem,3vw,2.6rem);
   margin-top:clamp(.5rem,1.6vh,1rem); align-items:start;}
 .ck-list{display:flex; flex-direction:column;}
-.ck-row{display:flex; gap:clamp(.7rem,1.4vw,1.1rem); align-items:flex-start; padding:clamp(.5rem,1.5vh,.85rem) 0;
+.ck-row{display:flex; gap:clamp(.7rem,1.4vw,1.1rem); align-items:flex-start; padding:clamp(.32rem,1vh,.58rem) 0;
   border-bottom:1px solid var(--line);}
 .ck-row:first-child{border-top:1px solid var(--line);}
 .ck-box{flex:none; width:clamp(1rem,1.7vw,1.3rem); height:clamp(1rem,1.7vw,1.3rem); border:2px solid var(--accent);
   border-radius:3px; margin-top:.2rem;}
-.ck-q{font-family:'Merriweather',serif; font-weight:700; color:var(--forest); font-size:clamp(.82rem,1.35vw,1.05rem); line-height:1.4;}
+.ck-q{font-family:'Merriweather',serif; font-weight:700; color:var(--forest); font-size:clamp(.78rem,1.25vw,.98rem); line-height:1.35;}
 .ck-a{font-size:clamp(.62rem,.95vw,.74rem); line-height:1.45; color:#7d8a84; margin-top:.2rem;}
 .ck-a i{font-style:italic;}
 .ck-conv{border-left:1px solid var(--line); padding-left:clamp(.9rem,2.2vw,1.8rem);}
@@ -387,8 +415,9 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
   .ag-col:first-child{border-top:0;}
   .ag-item{text-align:left;}
   .ag-meta{grid-template-columns:1fr 1fr;}
-  .ag-sub,.r2-first{grid-template-columns:1fr; gap:.25rem;}
-  .ck-body{grid-template-columns:1fr;}
+  .ag-sub{grid-template-columns:1fr; gap:.25rem;}
+  .ck-body,.gl-body{grid-template-columns:1fr;}
+  .gl-pdf{border-left:0; padding-left:0;}
   .ck-conv{border-left:0; padding-left:0;}
 }
 
@@ -432,8 +461,14 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 .cb-f select,.cb-f input{font:inherit; font-size:.76rem; font-weight:600; color:#22302b; background:#fbfaf6;
   border:1px solid var(--line); border-radius:7px; padding:.24rem .4rem; min-width:0;}
 .cb-f select:focus,.cb-f input:focus{outline:none; border-color:var(--accent); background:#fff;}
-.cb-f.wide{flex:1 1 16rem;} .cb-f.wide input{font-family:'Merriweather',serif; font-weight:700; color:var(--forest);}
-.cb-f.names{flex:0 1 13rem;}
+.cb-f.wide{flex:1 1 11rem;} .cb-f.wide input{font-family:'Merriweather',serif; font-weight:700; color:var(--forest);}
+.cb-f.names{flex:0 1 11rem;}
+.cb-f.code{flex:0 1 9.5rem;}
+.cb-f.code input{font-family:'Inter',sans-serif; font-weight:800; letter-spacing:.05em; text-transform:uppercase;}
+.cb-f.code input::placeholder{text-transform:none; letter-spacing:0; font-weight:500;}
+.cb-f.code input.ok{border-color:#2f7d4f; background:#f1f8f3;}
+.cb-codestat{font-style:normal; letter-spacing:0; text-transform:none; font-weight:700; margin-left:.25rem;}
+.cb-codestat.ok{color:#2f7d4f;} .cb-codestat.no{color:#A4373A;}
 
 .cb-body{flex:1; min-height:0; display:grid; grid-template-columns:clamp(11.5rem,15vw,14rem) minmax(0,1fr) clamp(13rem,17vw,15.5rem); gap:.6rem;}
 
@@ -719,6 +754,38 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
     <div class="ti-tag">SOS 110 &nbsp;&middot;&nbsp; Building a Sustainable World</div>
   </div>
   <div class="footer"></div>
+<script>(function(){
+  if(!new URLSearchParams(location.search).has('host') || document.querySelector('.r2-code')) return;
+  function r2Code(d){
+      var W=['SAGUARO','MESQUITE','OCOTILLO','CHOLLA','PALOVERDE','CREOSOTE','JAVELINA','ROADRUNNER',
+             'GILA','HAWK','COYOTE','QUAIL','MONSOON','ARROYO','CANYON','MESA','BUTTE','CALICHE','TORTOISE',
+             'BOBCAT','CACTUS','YUCCA','AGAVE','IRONWOOD','SYCAMORE','COTTONWOOD','WILLOW','HERON','FALCON',
+             'OWL','WREN','LIZARD','TOAD','BEETLE','MOTH','SPRING','RIVER','DELTA','DUNE','BASIN','RIDGE',
+             'CLOUD','THUNDER','RAIN','DUST','SUNSET','DAWN','EMBER','CEDAR','JUNIPER','PINYON','ASPEN',
+             'MARIGOLD','POPPY','LUPINE','SAGE','FERN','MOSS','LICHEN','CORAL','OTTER','BISON','ELK','LARK'];
+      var key=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(), s='sos110|review2|'+key+'|cholla', h=2166136261;
+      for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); }
+      h=h>>>0; return W[h%W.length]+'-'+(10+Math.floor(h/W.length)%90); }
+    function r2Norm(c){ return String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,''); }
+    /* the date (as a Date) whose code matches, looking back `days` days, or null */
+    function r2CodeMatch(c,days){ var t=r2Norm(c); if(!t) return null; var d=new Date();
+      for(var i=0;i<=days;i++){ var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()-i); if(r2Norm(r2Code(x))===t) return x; }
+      return null; }
+    function r2DayLabel(d){ return d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'}); }
+  var b=document.createElement('button'), big=document.createElement('div');
+  b.type='button'; b.className='r2-code'; b.title='Click to show the code full-screen';
+  big.className='r2-codebig'; big.hidden=true;
+  big.innerHTML='<span>Today&rsquo;s in-class code</span><b></b><i></i>'+
+    '<em>Type it into the In-class code box in the builder. It counts as your attendance.</em>';
+  function paint(){ var d=new Date(), c=r2Code(d);
+    b.innerHTML='<span>In-class code</span><b>'+c+'</b>';
+    big.querySelector('b').textContent=c; big.querySelector('i').textContent=r2DayLabel(d); }
+  b.addEventListener('click',function(e){ e.stopPropagation(); big.hidden=!big.hidden; });
+  big.addEventListener('click',function(){ big.hidden=true; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') big.hidden=true; });
+  document.body.appendChild(b); document.body.appendChild(big); document.body.classList.add('r2-host');
+  paint(); setInterval(paint,60000);   /* a deck left open past midnight rolls over to the new day's code */
+})();</script>
 </section>
 <section class="slide" data-type="announce" style="--accent:#2D6A4F" data-at-id="r2-review-attendance" data-at-chapter="SOS 110 · In-Class Review Assignment 2">
   <div class="slide-inner col">
@@ -735,71 +802,26 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 </section>
 <section class="slide ag-slide" data-type="assign" style="--accent:#2f6f6a">
   <div class="slide-inner col ag-root">
-
     <div class="eyebrow">SOS 110 &nbsp;·&nbsp; In-Class Review Assignment 2</div>
-    <h2 class="heading ag-h">Mapping a Biogeochemical Cycle</h2>
-
-    <div class="ag-meta r2-meta">
-      <div><dt>When</dt><dd>Friday, 10/23, in class</dd></div>
+    <h2 class="heading ag-h">The Assignment at a Glance</h2>
+    <div class="ag-meta">
       <div><dt>Duration</dt><dd>50 minutes</dd></div>
-      <div><dt>Group size</dt><dd>Varies. Work with the students sitting around you.</dd></div>
-      <div><dt>Tools</dt><dd>Tutorial: Dr. Ted Pavlic&rsquo;s <a class="ag-link"
-        href=\"https://www.youtube.com/watch?v=Xjf114SyG6g\" target="_blank" rel="noopener noreferrer"
-        title="Opens the tutorial on YouTube in a new tab">Drawing Causal Loop Diagrams in Insight Maker</a>.
-        Or, the dedicated <b>Cycle Systems Builder</b> on the last slide of this deck.</dd></div>
+      <div><dt>Group size</dt><dd>Varies. Work with the students around you.</dd></div>
+      <div><dt>Tool</dt><dd>The <b>Cycle Systems Builder</b>, the last slide of this deck</dd></div>
+      <div><dt>Tutorial</dt><dd>Dr. Ted Pavlic, <a class="ag-link" href="https://www.youtube.com/watch?v=Xjf114SyG6g" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">Drawing Causal Loop Diagrams in Insight Maker</a></dd></div>
     </div>
-
-    <p class="ag-obj"><b>Objective.</b> Describe a major biogeochemical cycle and analyze its interactions
-      with human activities to evaluate its role in supporting Earth&rsquo;s life-supporting systems.
-      <i>Final deliverable:</i> a single, cohesive visual illustration (created collaboratively via Zoom
-      Whiteboard, InsightMaker, Miro, Canva, PowerPoint, or a similar platform) divided into three clear
-      sections: Title, Diagram, and Summary.</p>
-
-    <div class="r2-first">
-      <div class="r2-fl">First</div>
-      <div class="r2-fb">
-        <p class="r2-fp"><b>Pick one cycle:</b> <span class="r2-cyc">The Nitrogen Cycle</span> <span class="r2-dot">&middot;</span> <span class="r2-cyc">The Phosphorus Cycle</span> <span class="r2-dot">&middot;</span> <span class="r2-cyc">The Carbon Cycle</span> <span class="r2-dot">&middot;</span> <span class="r2-cyc">The Water Cycle</span> <span class="r2-dot">&middot;</span> <span class="r2-cyc">The Oxygen Cycle</span></p>
-        <p class="r2-fp"><b>Context:</b> ground your diagram in a specific geographic context. You may base it on
-          the local <b>Sonoran Desert</b> (Phoenix area), or select a comparable ecosystem (e.g., tropical
-          forest, temperate forest, savanna) if it provides a more compelling case for your cycle.</p>
+    <p class="ag-obj"><b>Objective.</b> Describe a major biogeochemical cycle and analyze its interactions with
+      human activities to evaluate its role in supporting Earth&rsquo;s life-supporting systems.
+      <i>The full instructions are on Canvas.</i></p>
+    <div class="gl-body">
+      <ol class="gl-list"><li><b>Pick one cycle:</b> nitrogen, phosphorus, carbon, water, or oxygen.</li><li><b>Pick a place:</b> the Sonoran Desert (Phoenix area), or a comparable ecosystem such as a tropical forest, temperate forest, or savanna.</li><li><b>Top: title and in-class code:</b> name your cycle and ecosystem, and type today&rsquo;s code from the screen. <b>The code counts as your attendance.</b></li><li><b>Middle: the diagram:</b> stocks (pools), labeled flows (processes) with clear arrows, and <b>2&ndash;3 human impacts</b> marked with icons.</li><li><b>Bottom: summary:</b> a brief, original synthesis of how the cycle behaves in your ecosystem.</li><li><b>Submit:</b> click <b>Save as PDF</b> in the builder. <b>Every student</b> uploads their own copy to Canvas.</li></ol>
+      <div class="gl-pdf">
+        <div class="gl-pdfh">Saving your PDF</div>
+        <p class="gl-pdfp"><b>Save as PDF</b> opens your browser&rsquo;s <i>print</i> window. Don&rsquo;t pick a
+          printer: change where it goes to a PDF, then save the file and upload it.</p>
+        <dl class="gl-dl"><div><dt>Windows</dt><dd>set <b>Printer</b> or <b>Destination</b> to <i>Save as PDF</i> or <i>Microsoft Print to PDF</i>.<br><a class="ag-link" href="https://pureinfotech.com/print-pdf-windows-11-10/" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">How to print to PDF on Windows 11 and 10</a></dd></div><div><dt>Mac</dt><dd>click the <b>PDF</b> menu at the bottom of the window, then <i>Save as PDF</i>.<br><a class="ag-link" href="https://support.apple.com/guide/mac-help/save-a-document-as-a-pdf-on-mac-mchlp1531/mac" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">Apple Support: Save a document as a PDF</a></dd></div><div><dt>Chromebook or Chrome</dt><dd>set <b>Destination</b> to <i>Save as PDF</i>, then <b>Save</b>.<br><a class="ag-link" href="https://support.google.com/chrome/answer/1069693" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">Google Chrome Help: Print from Chrome</a></dd></div><div><dt>Firefox</dt><dd>set <b>Destination</b> to <i>Save to PDF</i>.<br><a class="ag-link" href="https://support.mozilla.org/en-US/kb/how-print-web-pages-firefox" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">Mozilla Support: Print web pages in Firefox</a></dd></div></dl>
       </div>
     </div>
-
-    <div class="ag-rule"><span>The three sections of your illustration</span></div>
-
-    <div class="ag-cols r2-cols">
-
-      <div class="ag-col">
-        <h3 class="ag-sh"><span class="ag-n">1.</span>Top Section: Title</h3>
-        <p class="ag-intro">A clear, descriptive title that names your cycle and your chosen ecosystem.</p>
-        <p class="ag-eg"><i>e.g., &ldquo;The Nitrogen Cycle in the Sonoran Desert&rdquo;</i></p>
-      </div>
-
-      <div class="ag-col">
-        <h3 class="ag-sh"><span class="ag-n">2.</span>Middle Section: The Main Illustration</h3>
-        <p class="ag-intro">Map the complete cycle by explicitly annotating the pools, inflows, and outflows.
-          Use boxes or circles for stocks, labeled arrows for flows, and icons or clipart to highlight
-          human touchpoints.</p>
-        <p class="ag-item"><b>Key components (stocks / pools):</b> the main reservoirs where the element resides (e.g., atmosphere, soil organic matter, vegetation, microbes, water bodies).</p><p class="ag-item"><b>Key processes (flows):</b> the essential biological, chemical, or physical processes that move the element between pools (e.g., photosynthesis, nitrogen fixation, nitrification, decomposition, erosion, evaporation).</p><p class="ag-item"><b>Human impacts:</b> integrate <b>2&ndash;3</b> human-caused disruptions to the natural cycle. A Nitrogen team might illustrate fertilizer runoff, fossil fuel combustion, or soil crust degradation; a Carbon team might focus on vehicle emissions, deforestation, or urban concrete replacing biomass storage.</p>
-      </div>
-
-      <div class="ag-col">
-        <h3 class="ag-sh"><span class="ag-n">3.</span>Bottom Section: Summary &amp; Identity</h3>
-        <p class="ag-item"><b>Synthesis statement:</b> a brief, original summary analyzing the cycle&rsquo;s unique dynamics within your chosen ecosystem.</p>
-        <p class="ag-eg r2-quote"><i>&ldquo;In the arid Phoenix desert, natural nitrogen cycling is highly
-          limited by moisture, making biological soil crusts crucial for nitrogen fixation; however, urban
-          fossil fuel combustion heavily amplifies local deposition&hellip;&rdquo;</i></p>
-      </div>
-
-    </div>
-
-    <div class="ag-sub">
-      <div class="ag-sublbl">Submission</div>
-      <p class="ag-subtext"><b>Collaboration:</b> work actively with the students around you.
-        <b>Individual submission:</b> take a high-resolution screenshot or export your final work as a PDF.
-        <b>Every student must upload their own copy</b> to the Canvas link to receive credit.</p>
-    </div>
-
   </div>
   <div class="footer"></div>
 </section>
@@ -810,7 +832,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
     <p class="ag-obj"><b>Student self-assessment checklist.</b> Before uploading your file, verify that
       you can answer <b>Yes</b> to all of the following.</p>
     <div class="ck-body">
-      <div class="ck-list"><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Did you map and clearly label all major stocks, pools, or reservoirs?</p><p class="ck-a">The builder&rsquo;s panel ticks this at three or more stocks, every one named.</p></div></div><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Did you explicitly show the directional processes and flows using clear arrows?</p><p class="ck-a">Every flow piped to a stock, and named after its process.</p></div></div><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Did you illustrate and explain at least two concrete human impacts or disruptions?</p><p class="ck-a">Two human impacts on the diagram, each explained in <i>Summary</i>.</p></div></div><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Is your diagram grounded in an appropriate, clearly identified ecosystem context?</p><p class="ck-a">A cycle and an ecosystem chosen in the title band.</p></div></div></div>
+      <div class="ck-list"><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Did you map and clearly label all major stocks, pools, or reservoirs?</p><p class="ck-a">The builder&rsquo;s panel ticks this at three or more stocks, every one named.</p></div></div><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Did you explicitly show the directional processes and flows using clear arrows?</p><p class="ck-a">Every flow piped to a stock, and named after its process.</p></div></div><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Did you illustrate and explain at least two concrete human impacts or disruptions?</p><p class="ck-a">Two human impacts on the diagram, each explained in <i>Summary</i>.</p></div></div><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Is your diagram grounded in an appropriate, clearly identified ecosystem context?</p><p class="ck-a">A cycle and an ecosystem chosen in the title band.</p></div></div><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Did you write your summary?</p><p class="ck-a">The synthesis statement, in <i>Summary</i>.</p></div></div><div class="ck-row"><span class="ck-box" aria-hidden="true"></span><div><p class="ck-q">Did you include a title and the in-class code (or verification of collaboration)?</p><p class="ck-a">The code field turns green when it matches the code on the screen.</p></div></div></div>
       <div class="ck-conv">
         <div class="ck-convh">Drawing conventions</div>
         <div class="ck-convb"><svg viewBox="0 0 124 346" class="ck-svg" aria-hidden="true"><rect x="14" y="14" width="96" height="40" rx="3" fill="#fffaf1" stroke="#7a5a2f" stroke-width="2.4"/><text x="62" y="39" text-anchor="middle" class="cv-in">Soil N</text><path d="M14 104 H98" stroke="#4a3c2a" stroke-width="9"/><path d="M14 104 H98" stroke="#fffaf1" stroke-width="4.4"/><path d="M110 104 l-13 -7 v14 Z" fill="#4a3c2a"/><path transform="translate(56,104)" d="M-13 -8 L13 8 V-8 L-13 8 Z" fill="#fffaf1" stroke="#2f5f5a" stroke-width="2.2" stroke-linejoin="round"/><path d="M56 104 V90" stroke="#2f5f5a" stroke-width="2"/><circle cx="56" cy="85" r="4.5" fill="#fffaf1" stroke="#2f5f5a" stroke-width="2"/><path transform="translate(30,164) scale(.8)" d="M-20 7 C-27 7 -27 -5 -19 -5 C-19 -15 -5 -17 -2 -9 C3 -15 16 -12 15 -4 C24 -4 24 9 16 9 Z" fill="#fffaf1" stroke="#4a3c2a" stroke-width="2"/><path d="M48 164 H98" stroke="#4a3c2a" stroke-width="9"/><path d="M48 164 H98" stroke="#fffaf1" stroke-width="4.4"/><path d="M110 164 l-13 -7 v14 Z" fill="#4a3c2a"/><path transform="translate(72,164)" d="M-13 -8 L13 8 V-8 L-13 8 Z" fill="#fffaf1" stroke="#2f5f5a" stroke-width="2.2" stroke-linejoin="round"/><path d="M72 164 V150" stroke="#2f5f5a" stroke-width="2"/><circle cx="72" cy="145" r="4.5" fill="#fffaf1" stroke="#2f5f5a" stroke-width="2"/><path d="M14 222 Q60 200 100 222" fill="none" stroke="#2f6b3f" stroke-width="2.6"/><path d="M108 226 l-14 -1 l7 -11 Z" fill="#2f6b3f"/><circle cx="58" cy="212" r="9" fill="#fffaf1" stroke="#2f6b3f" stroke-width="2"/><text x="58" y="217" text-anchor="middle" class="cv-s" fill="#2f6b3f">+</text><path d="M14 262 Q60 240 100 262" fill="none" stroke="#A4373A" stroke-width="2.6"/><path d="M108 266 l-14 -1 l7 -11 Z" fill="#A4373A"/><circle cx="58" cy="252" r="9" fill="#fffaf1" stroke="#A4373A" stroke-width="2"/><text x="58" y="257" text-anchor="middle" class="cv-s" fill="#A4373A">−</text><rect x="14" y="296" width="96" height="38" rx="11" fill="#fbeeec" stroke="#A4373A" stroke-width="2.2"/><path transform="translate(34,315) scale(.62)" d="M-18 7 v-6 l6 -9 h17 l7 9 h4 v6 Z M-10 5 a4 4 0 1 0 .1 0 M10 5 a4 4 0 1 0 .1 0" fill="none" stroke="#A4373A" stroke-width="3.2" stroke-linejoin="round"/><text x="70" y="320" text-anchor="middle" class="cv-in hum">Traffic</text></svg><dl class="ck-dl"><div><dt>Stock</dt><dd>a box for each pool or reservoir</dd></div><div><dt>Flow</dt><dd>a pipe with a valve, labeled with its process; the head shows direction</dd></div><div><dt>Cloud</dt><dd>where matter enters from, or leaves to, outside your system</dd></div><div><dt>+ arrow</dt><dd>the two change in the same direction</dd></div><div><dt>&minus; arrow</dt><dd>the two change in opposite directions</dd></div><div><dt>Human touchpoint</dt><dd>an icon card, wired to the process it changes</dd></div></dl></div>
@@ -880,6 +902,9 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
         <input data-title type="text" maxlength="90" placeholder="Choose a cycle and an ecosystem" spellcheck="true"></label>
       <label class="cb-f names"><span>Group members</span>
         <input data-names type="text" maxlength="120" placeholder="Your names" spellcheck="false"></label>
+      <label class="cb-f code"><span>In-class code <i class="cb-codestat" data-codestat></i></span>
+        <input data-code type="text" maxlength="40" placeholder="from the screen" spellcheck="false"
+          autocomplete="off" autocapitalize="characters"></label>
     </div>
 
     <div class="cb-body">
@@ -1004,7 +1029,8 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
           <button class="cb-x" type="button" data-close aria-label="Close">&times;</button></div>
         <div class="cb-card-b cb-i">
           <p class="cb-i-lead">The builder makes the single illustration the assignment asks for, in its three
-            sections: the <b>Title</b> band across the top, the <b>Diagram</b> on the canvas, and the
+            sections: the <b>Title</b> band across the top (with the in-class code from the screen, which counts
+            as your attendance), the <b>Diagram</b> on the canvas, and the
             <b>Summary</b> you write in its own window. Save as PDF prints all three on one sheet.</p>
 
           <div class="cb-i-rule"><span>The four kinds of piece</span></div>
@@ -1062,6 +1088,22 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
     var wrap=root.querySelector('[data-cb]'), svg=wrap.querySelector('[data-svg]');
     var G=svg.querySelector('[data-g]'), RUB=svg.querySelector('[data-rub]'), cvwrap=wrap.querySelector('[data-cvwrap]');
     var STORE='sos110-review2-cycle:v1';
+    function r2Code(d){
+      var W=['SAGUARO','MESQUITE','OCOTILLO','CHOLLA','PALOVERDE','CREOSOTE','JAVELINA','ROADRUNNER',
+             'GILA','HAWK','COYOTE','QUAIL','MONSOON','ARROYO','CANYON','MESA','BUTTE','CALICHE','TORTOISE',
+             'BOBCAT','CACTUS','YUCCA','AGAVE','IRONWOOD','SYCAMORE','COTTONWOOD','WILLOW','HERON','FALCON',
+             'OWL','WREN','LIZARD','TOAD','BEETLE','MOTH','SPRING','RIVER','DELTA','DUNE','BASIN','RIDGE',
+             'CLOUD','THUNDER','RAIN','DUST','SUNSET','DAWN','EMBER','CEDAR','JUNIPER','PINYON','ASPEN',
+             'MARIGOLD','POPPY','LUPINE','SAGE','FERN','MOSS','LICHEN','CORAL','OTTER','BISON','ELK','LARK'];
+      var key=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(), s='sos110|review2|'+key+'|cholla', h=2166136261;
+      for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); }
+      h=h>>>0; return W[h%W.length]+'-'+(10+Math.floor(h/W.length)%90); }
+    function r2Norm(c){ return String(c||'').toUpperCase().replace(/[^A-Z0-9]/g,''); }
+    /* the date (as a Date) whose code matches, looking back `days` days, or null */
+    function r2CodeMatch(c,days){ var t=r2Norm(c); if(!t) return null; var d=new Date();
+      for(var i=0;i<=days;i++){ var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()-i); if(r2Norm(r2Code(x))===t) return x; }
+      return null; }
+    function r2DayLabel(d){ return d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'}); }
     function $(s){ return wrap.querySelector(s); }
     function $$(s){ return Array.prototype.slice.call(wrap.querySelectorAll(s)); }
     function esc(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -1190,7 +1232,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
 
     /* ═══════ the document: everything Save writes and Open reads ═══════ */
     function blank(){ return {v:1, app:'sos110-cycle-builder', cycle:'', eco:'', ecoOther:'', title:'', titleAuto:true,
-                              names:'', summary:'', nodes:[], links:[], seq:1, zoom:0}; }
+                              names:'', code:'', summary:'', nodes:[], links:[], seq:1, zoom:0}; }
     var doc=blank(), sel=null, mode='move', pend=null;
     var ZW=[1000,1300,1600];
     function WW(){ return ZW[doc.zoom||0]; } function HH(){ return Math.round(WW()*.62); }
@@ -1535,9 +1577,9 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
       window.addEventListener('pointermove',palMove); window.addEventListener('pointerup',palUp); window.addEventListener('pointercancel',palUp); });
 
     /* ═══════ the Title band ═══════ */
-    var bCycle=$('[data-cycle]'), bEco=$('[data-eco]'), bOther=$('[data-ecoother]'), bTitle=$('[data-title]'), bNames=$('[data-names]');
+    var bCycle=$('[data-cycle]'), bEco=$('[data-eco]'), bOther=$('[data-ecoother]'), bTitle=$('[data-title]'), bNames=$('[data-names]'), bCode=$('[data-code]'), bCodeStat=$('[data-codestat]');
     function syncBand(){
-      bCycle.value=doc.cycle||''; bEco.value=doc.eco||''; bOther.value=doc.ecoOther||''; bNames.value=doc.names||'';
+      bCycle.value=doc.cycle||''; bEco.value=doc.eco||''; bOther.value=doc.ecoOther||''; bNames.value=doc.names||''; bCode.value=doc.code||''; codeStatus();
       $('[data-ecoother-wrap]').hidden= doc.eco!=='other';
       bTitle.value= doc.titleAuto? autoTitle() : doc.title; }
     var bandT=null; function bandCommit(){ clearTimeout(bandT); bandT=setTimeout(commit,600); }
@@ -1549,6 +1591,14 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
     bTitle.addEventListener('input',function(){ doc.title=bTitle.value; doc.titleAuto=false; renderPanel(); bandCommit(); });
     bTitle.addEventListener('blur',function(){ if(!bTitle.value.trim()){ doc.titleAuto=true; doc.title=''; bTitle.value=autoTitle(); renderPanel(); commit(); } });
     bNames.addEventListener('input',function(){ doc.names=bNames.value; renderPanel(); bandCommit(); });
+    /* the in-class code: checked against the codes of the last three weeks, so a student finishing
+       at home later still sees it confirmed. A speed bump, not security: the same page generates it. */
+    function codeMatch(){ var c=String(doc.code||'').trim(); return c? r2CodeMatch(c, 21) : null; }
+    function codeStatus(){ var c=String(doc.code||'').trim(), m=codeMatch();
+      bCodeStat.textContent= !c? '' : m? '\u2713 '+r2DayLabel(m) : 'not recognized';
+      bCodeStat.className='cb-codestat'+(c? (m? ' ok' : ' no') : '');
+      bCode.classList.toggle('ok',!!m); }
+    bCode.addEventListener('input',function(){ doc.code=bCode.value; codeStatus(); renderPanel(); bandCommit(); });
 
     /* ═══════ feedback loops: arrows, plus pipes (an inflow raises its stock, an outflow lowers it) ═══════ */
     function findLoops(){
@@ -1579,7 +1629,8 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
         {ok: fl.length>=3 && flOk===fl.length, t:'Processes shown as directional flows', d: fl.length? flOk+' of '+fl.length+' piped and named'+(fl.length<3? ', add at least 3' : '') : 'none yet'},
         {ok: huLinked.length>=2 && huExpl.length>=2, t:'Two or more human impacts, illustrated and explained', d: hu.length? huLinked.length+' on the diagram, '+huExpl.length+' explained' : 'none yet'},
         {ok: ctxOk, t:'Grounded in a named ecosystem', d: c? (c.ok? c.n : 'sulfur is the example only')+(ecoName()? ' · '+ecoName() : ', choose an ecosystem') : 'choose a cycle'},
-        {ok: !!titleText() && String(doc.summary||'').trim().length>=60, t:'Title and synthesis statement', d: !titleText()? 'no title yet' : String(doc.summary||'').trim().length<60? 'open ✎ Summary' : 'written'}
+        {ok: String(doc.summary||'').trim().length>=60, t:'Summary written', d: String(doc.summary||'').trim().length>=60? 'synthesis statement written' : 'open ✎ Summary'},
+        {ok: !!titleText() && !!codeMatch(), t:'Title and in-class code', d: !titleText()? 'no title yet' : !String(doc.code||'').trim()? 'enter the code from the screen' : codeMatch()? 'code matches '+r2DayLabel(codeMatch()) : 'code not recognized'}
       ];
       return {st:st, fl:fl, hu:hu, vr:vr, checks:checks, loops:findLoops()}; }
     function renderPanel(){
@@ -1711,7 +1762,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
     function clean(d){
       if(!d || typeof d!=='object' || !Array.isArray(d.nodes) || !Array.isArray(d.links)) return null;
       var o=blank(), K={stock:1,flow:1,var:1,human:1}, ids={};
-      ['cycle','eco','ecoOther','title','names','summary'].forEach(function(k){ if(typeof d[k]==='string') o[k]=d[k].slice(0, k==='summary'? 4000 : 160); });
+      ['cycle','eco','ecoOther','title','names','code','summary'].forEach(function(k){ if(typeof d[k]==='string') o[k]=d[k].slice(0, k==='summary'? 4000 : 160); });
       if(!CYC[o.cycle]) o.cycle=''; if(!ECO[o.eco]) o.eco='';
       o.titleAuto= d.titleAuto!==false; o.zoom=clamp(+d.zoom||0,0,ZW.length-1);
       d.nodes.forEach(function(n){ if(!n || !K[n.k] || typeof n.id!=='string' || ids[n.id]) return; var x=+n.x, y=+n.y; if(!isFinite(x)||!isFinite(y)) return;
@@ -1779,6 +1830,10 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
       '.k{font-size:7.5pt;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#7a5a2f}'+
       'h1{font-family:Merriweather,Georgia,serif;font-size:19pt;line-height:1.2;color:#1A3C34;margin:3px 0 4px}'+
       '.meta{font-size:9pt;color:#4a5a52}.meta b{color:#1A3C34}'+
+      'header{display:flex;justify-content:space-between;gap:14px;align-items:flex-end}'+
+      '.code{flex:none;text-align:right;border:1.5px solid #2f6f6a;border-radius:6px;padding:4px 9px}'+
+      '.code .k{color:#2f6f6a}.code b{display:block;font-size:13pt;letter-spacing:.06em;color:#1A3C34}'+
+      '.code i{display:block;font-style:normal;font-size:7.5pt;color:#2f6f6a}.code.no{border-color:#c9a3a4}.code.no i{color:#A4373A}'+
       'header{padding-bottom:8px;border-bottom:2px solid #1A3C34;margin-bottom:10px}'+
       'h2{font-family:Merriweather,Georgia,serif;font-size:10.5pt;color:#1A3C34;margin:0 0 5px;padding-bottom:3px;border-bottom:1px solid #dde4dc}'+
       'figure{border:1px solid #e3dccb;border-radius:6px;padding:6px;background:#fdfaf3;page-break-inside:avoid}'+
@@ -1795,7 +1850,9 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
     function exportPDF(){
       closeInsp();
       var title=titleText()||'Untitled cycle', c=cyc(), when=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
-      var vb=cropBox(), hu=doc.nodes.filter(isHuman);
+      var vb=cropBox(), hu=doc.nodes.filter(isHuman), cm=codeMatch(), cd=String(doc.code||'').trim();
+      var codeBox= cd? '<div class="code'+(cm?'':' no')+'"><div class="k">In-class code</div><b>'+esc(cd)+'</b><i>'+(cm? 'matches class on '+esc(r2DayLabel(cm)) : 'not an in-class code')+'</i></div>'
+                     : '<div class="code no"><div class="k">In-class code</div><b>&mdash;</b><i>none entered</i></div>';
       var meta=[]; if(c) meta.push('<b>Cycle</b> '+esc(c.n)); if(ecoName()) meta.push('<b>Ecosystem</b> '+esc(ecoName()));
       if(doc.names.trim()) meta.push('<b>Group</b> '+esc(doc.names.trim())); meta.push(when);
       var legend='<span><i style="border-color:#7a5a2f;background:#fffaf1"></i>Stock</span>'+
@@ -1807,7 +1864,7 @@ img.bleed{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
       var doc2='<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+esc(title)+'</title>'+
         '<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Inter:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">'+
         '<style>'+PRINT_CSS+'</style></head><body>'+
-        '<header><div class="k">SOS 110 &middot; In-Class Review Assignment 2</div><h1>'+esc(title)+'</h1><div class="meta">'+meta.join(' &nbsp;&middot;&nbsp; ')+'</div></header>'+
+        '<header><div><div class="k">SOS 110 &middot; In-Class Review Assignment 2</div><h1>'+esc(title)+'</h1><div class="meta">'+meta.join(' &nbsp;&middot;&nbsp; ')+'</div></div>'+codeBox+'</header>'+
         '<figure><svg viewBox="'+vb.map(r1).join(' ')+'" xmlns="http://www.w3.org/2000/svg">'+diagram(true)+'</svg><figcaption>'+legend+'</figcaption></figure>'+
         '<section><h2>Summary</h2>'+(String(doc.summary||'').trim()? '<p class="syn">'+pesc(doc.summary.trim())+'</p>' : '<p class="syn miss">No synthesis statement yet.</p>')+humHTML+'</section>'+
         '<footer>Built in the Cycle Systems Builder. SOS 110. Every student uploads their own copy on Canvas.</footer></body></html>';
