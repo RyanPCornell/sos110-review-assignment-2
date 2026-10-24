@@ -487,6 +487,9 @@ body.r2-host .ag-root{padding-top:2.9rem;}
 .cb-chip span{line-height:1.2;}
 .cb-chip.k-human{background:#fdf6f5;}
 .cb-chip.custom{border-style:dashed; color:#7d7b70; font-style:italic;}
+.cb-chip.armed{border-color:#2f5f5a; background:#e6f1ef; box-shadow:0 0 0 2px #2f5f5a inset;}
+.cb-mode.armed.on{color:#fff; background:#2f5f5a; max-width:15rem; overflow:hidden; text-overflow:ellipsis;}
+.cb-mode.armed.on b.pipe{color:#fff;}
 .cb-ghost{position:fixed; left:0; top:0; z-index:9999; pointer-events:none; font:600 .74rem Inter,sans-serif; color:#2b2a22;
   background:#fff; border:1.5px dashed #9a927b; border-radius:8px; padding:.25rem .55rem; opacity:.85; white-space:nowrap;}
 .cb-ghost.in{border-style:solid; border-color:var(--accent); opacity:1;}
@@ -931,8 +934,8 @@ body.r2-host .ag-root{padding-top:2.9rem;}
           <div class="cb-i-rule"><span>Drawing</span></div>
           <p class="cb-i-p"><span class="cb-ui">&rArr; Flow</span> draws a whole process in one drag. From one
             stock to another, it adds the valve and both pipes. From a stock into empty space, the material
-            leaves the system. From empty space onto a stock, it enters from outside. You can also drop a
-            process from the palette and pipe it in afterwards.</p>
+            leaves the system. From empty space onto a stock, it enters from outside. <b>Click a process in the
+            palette first</b> and the drag draws it already named; otherwise the new valve asks for a name.</p>
           <p class="cb-i-p"><span class="cb-ui">+ Arrow</span> and <span class="cb-ui">&minus; Arrow</span>
             draw causal links. A <b class="pos">+</b> means the two move the same way (more rainfall, more
             leaching); a <b class="neg">&minus;</b> means they move in opposite ways. Point arrows at a
@@ -1270,10 +1273,12 @@ body.r2-host .ag-root{padding-top:2.9rem;}
         /* a second process between the same two pools must not sit on top of the first */
         var tries=0; while(tries<6 && doc.nodes.some(function(n){ return n.k==='flow' && Math.hypot(n.x-p[0],n.y-p[1])<46; })){
           var dx=B.x-A.x, dy=B.y-A.y, d=Math.hypot(dx,dy)||1, k=(tries%2? -1 : 1)*(52+26*Math.floor(tries/2)); p=[(A.x+B.x)/2-dy/d*k,(A.y+B.y)/2+dx/d*k]; tries++; } }
-      var f=addNode('flow','',null,p);
+      var f=addNode('flow', armed? armed.label : '', null, p);
       if(A) doc.links.push({a:A.id,b:f.id,t:'f'});
       if(B) doc.links.push({a:f.id,b:B.id,t:'f'});
-      render(); openInsp(f.id,true); }
+      /* a process picked from the palette arrives named; a plain or Custom one opens its editor to be named */
+      if(armed && armed.label){ var nm=armed.label; disarm(); render(); commit(); toast('<b>'+esc(nm)+'</b> added. Click another process to draw the next one.',3200); }
+      else { disarm(); render(); openInsp(f.id,true); } }
     function addPipe(a,b){
       var A=byId(a), B=byId(b);
       if(!((A.k==='flow'&&B.k==='stock')||(A.k==='stock'&&B.k==='flow'))){ toast('Pipes carry material between <b>stocks</b>. To show that something speeds or slows a process, use a <b>+</b> or <b>−</b> arrow.',3800); render(); return; }
@@ -1393,8 +1398,19 @@ body.r2-host .ag-root{padding-top:2.9rem;}
     /* backstop for browsers that do deliver dblclick: find the piece by position, never by target */
     svg.addEventListener('dblclick',function(e){ e.preventDefault(); var id=nodeAt(toSvg(e)); if(id && (insp.hidden || inspId!==id)) openInsp(id,false); });
 
-    $$('.cb-mode').forEach(function(b){ b.addEventListener('click',function(){ mode=b.dataset.mode; pend=null;
-      $$('.cb-mode').forEach(function(x){ x.classList.toggle('on', x===b); }); svg.dataset.mode=mode; render();
+    /* ── a process "armed" from the palette: the Flow tool carries its name until it is drawn ── */
+    var armed=null, flowBtn=wrap.querySelector('[data-mode="flow"]'), flowBtnHTML=flowBtn.innerHTML;
+    function disarm(){ if(!armed) return; armed=null; flowBtn.innerHTML=flowBtnHTML; flowBtn.classList.remove('armed');
+      pal.querySelectorAll('.cb-chip.armed').forEach(function(x){ x.classList.remove('armed'); }); }
+    function setMode(m){ mode=m; pend=null; $$('.cb-mode').forEach(function(x){ x.classList.toggle('on', x.dataset.mode===m); }); svg.dataset.mode=m; render(); }
+    function arm(it,btn){
+      if(armed && btn && btn.classList.contains('armed')){ disarm(); toast('Cancelled.'); return; }
+      disarm(); armed={label:it.custom? '' : it.label}; setMode('flow');
+      if(btn) btn.classList.add('armed');
+      flowBtn.innerHTML='<b class="pipe">&rArr;</b> '+esc(it.custom? 'New process' : it.label); flowBtn.classList.add('armed');
+      toast('<b>'+esc(it.custom? 'A new process' : it.label)+'</b>: now drag from the stock it comes <b>from</b> to the stock it goes <b>to</b>. '+
+            'Into empty space if it leaves the system; from empty space if it comes in.',6000); }
+    $$('.cb-mode').forEach(function(b){ b.addEventListener('click',function(){ disarm(); setMode(b.dataset.mode);
       if(mode==='flow') toast('Drag from one <b>stock</b> to another to draw the process between them. Into empty space: it leaves the system.',3800);
       if(mode==='p') toast('Drag from a <b>cause</b> to its <b>effect</b>: more of one means <b>more</b> of the other.');
       if(mode==='n') toast('Drag from a <b>cause</b> to its <b>effect</b>: more of one means <b>less</b> of the other.'); }); });
@@ -1411,13 +1427,13 @@ body.r2-host .ag-root{padding-top:2.9rem;}
       if(wrap.querySelector('.cb-modal:not([hidden])')) return;
       if((e.metaKey||e.ctrlKey) && (e.key==='z'||e.key==='Z')){ e.preventDefault(); undo(); return; }
       if((e.key==='Delete'||e.key==='Backspace') && sel){ e.preventDefault(); removeNode(sel); return; }
-      if(e.key==='Escape' && (sel||pend)){ sel=null; pend=null; render(); } });
+      if(e.key==='Escape' && (sel||pend||armed)){ sel=null; pend=null; if(armed){ disarm(); toast('Cancelled.'); } render(); } });
 
     /* ═══════ palette ═══════ */
     var pal=$('[data-pal]'), pd=null;
     var GROUPS=[
       {k:'stock', t:'Stocks', s:'pools where the element sits'},
-      {k:'flow',  t:'Processes', s:'flows that move it. Or draw one with ⇒ Flow.'},
+      {k:'flow',  t:'Processes', s:'click one, then drag from stock to stock'},
       {k:'human', t:'Human impacts', s:'touchpoints, with their icons'},
       {k:'var',   t:'Conditions', s:'what speeds or slows a process'}
     ];
@@ -1425,7 +1441,7 @@ body.r2-host .ag-root{padding-top:2.9rem;}
     function chip(k,label,ic,custom,i){
       var g= k==='flow'? '<svg viewBox="-20 -20 40 40" aria-hidden="true"><path d="M-20 0 H-9 M9 0 H20" stroke="'+INK+'" stroke-width="5"/><path d="M-9 -6 L9 6 V-6 L-9 6 Z" fill="'+PAPER+'" stroke="'+KC.flow+'" stroke-width="2.2" stroke-linejoin="round"/></svg>'
             : '<svg viewBox="-20 -20 40 40" aria-hidden="true"><path d="'+(ICON[ic]||ICON.custom)+'" fill="none" stroke="'+KC[k]+'" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      return '<button type="button" class="cb-chip k-'+k+(custom?' custom':'')+'" data-add="'+k+'" data-i="'+(custom? 'c' : i)+'" title="'+(custom? 'A blank piece you name yourself' : 'Drag onto the canvas, or click')+'">'+g+'<span>'+esc(label)+'</span></button>'; }
+      return '<button type="button" class="cb-chip k-'+k+(custom?' custom':'')+'" data-add="'+k+'" data-i="'+(custom? 'c' : i)+'" title="'+(k==='flow'? 'Click, then drag from the stock it comes from to the stock it goes to' : custom? 'A blank piece you name yourself' : 'Drag onto the canvas, or click')+'">'+g+'<span>'+esc(label)+'</span></button>'; }
     function renderPalette(){
       var c=cyc(), h='<div class="cb-phint">Drag a piece onto the canvas, or click it. <b>Double-click a piece to edit it.</b></div>';
       if(!c) h+='<div class="cb-pnone">Choose your <b>cycle</b> in the band above and its pools, processes and human impacts appear here.</div>';
@@ -1447,13 +1463,18 @@ body.r2-host .ag-root{padding-top:2.9rem;}
       pd.on=true; pd.inside=inside; pd.ghost.style.transform='translate('+(e.clientX+8)+'px,'+(e.clientY+8)+'px)'; pd.ghost.classList.toggle('in',inside); }
     function palUp(e){ window.removeEventListener('pointermove',palMove); window.removeEventListener('pointerup',palUp); window.removeEventListener('pointercancel',palUp);
       if(!pd) return; var d=pd; pd=null; d.ghost.remove();
-      if(!d.on){ place(d.it,null); return; }
-      if(d.inside){ var q=toSvg(e); place(d.it,[q.x,q.y]); } }
+      if(!d.on){ if(d.it.k==='flow') arm(d.it,d.btn); else place(d.it,null); return; }
+      if(d.inside){ var q=toSvg(e);
+        if(d.it.k==='flow'){ disarm(); var f=addNode('flow',d.it.label,'',[q.x,q.y]); render();
+          if(d.it.custom) openInsp(f.id,true); else commit();
+          setMode('flow');
+          toast('A loose process. With <b>⇒ Flow</b>, drag from a stock <b>into</b> its valve, then from the valve <b>out to</b> a stock.',5200); }
+        else place(d.it,[q.x,q.y]); } }
     pal.addEventListener('pointerdown',function(e){ var b=e.target.closest('[data-add]'); if(!b) return; e.preventDefault();
       if(!insp.hidden) closeInsp();
       var it=itemOf(b), gh=document.createElement('div'); gh.className='cb-ghost k-'+it.k; gh.textContent=it.label||CUSTOM[it.k][0]; document.body.appendChild(gh);
       gh.style.transform='translate('+(e.clientX+8)+'px,'+(e.clientY+8)+'px)';
-      pd={it:it, x:e.clientX, y:e.clientY, on:false, inside:false, ghost:gh};
+      pd={it:it, x:e.clientX, y:e.clientY, on:false, inside:false, ghost:gh, btn:b};
       window.addEventListener('pointermove',palMove); window.addEventListener('pointerup',palUp); window.addEventListener('pointercancel',palUp); });
 
     /* ═══════ the Title band ═══════ */
@@ -1463,7 +1484,7 @@ body.r2-host .ag-root{padding-top:2.9rem;}
       $('[data-ecoother-wrap]').hidden= doc.eco!=='other';
       bTitle.value= doc.titleAuto? autoTitle() : doc.title; }
     var bandT=null; function bandCommit(){ clearTimeout(bandT); bandT=setTimeout(commit,600); }
-    bCycle.addEventListener('change',function(){ doc.cycle=bCycle.value; if(doc.titleAuto) bTitle.value=autoTitle(); renderPalette(); renderPanel(); commit();
+    bCycle.addEventListener('change',function(){ disarm(); doc.cycle=bCycle.value; if(doc.titleAuto) bTitle.value=autoTitle(); renderPalette(); renderPanel(); commit();
       if(doc.cycle==='sulfur') toast('Sulfur is here for the worked example. For the assignment, pick one of the other five.',3800); });
     bEco.addEventListener('change',function(){ doc.eco=bEco.value; $('[data-ecoother-wrap]').hidden= doc.eco!=='other'; if(doc.titleAuto) bTitle.value=autoTitle(); renderPanel(); commit();
       if(doc.eco==='other') setTimeout(function(){ bOther.focus(); },30); });
